@@ -1,99 +1,66 @@
 "use client";
+
 import { useState } from "react";
 
-export default function CustomerLogin() {
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-  const [error, setError] = useState<string>("");
-  const [loading, setLoading] = useState<boolean>(false);
+export default function LoginPage() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-  const validateEmail = (email: string): boolean => {
-    return /\S+@\S+\.\S+/.test(email);
-  };
-
-  const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    setError("");
-
-    if (!validateEmail(email)) {
-      setError("Please enter a valid email address.");
-      return;
-    }
-
-    if (password.length < 6) {
-      setError("Password must be at least 6 characters.");
-      return;
-    }
-
-    setLoading(true);
-
-    setTimeout(() => {
-      setLoading(false);
-
-      if (email.includes("user") && password === "password123") {
-        alert("Login successful! Redirecting...");
-        // You can do router.push('/dashboard') here
-      } else {
-        setError("Invalid email or password.");
-      }
-    }, 1500);
+    console.log("Login attempt:", { email, password });
+    // TODO: integrate with your authentication backend
   };
 
   return (
-    <main className="min-h-screen bg-gray-50 flex items-center justify-center p-6">
-      <div className="max-w-md w-full bg-white rounded-lg shadow-md p-8">
-        <h1 className="text-2xl font-bold mb-6 text-indigo-700 text-center">
-          Customer Login
-        </h1>
-
-        <form onSubmit={handleLogin} className="space-y-5">
+    <div className="bg-gray-50 min-h-screen flex items-center justify-center">
+      <div className="bg-white shadow-lg rounded-lg p-8 w-full max-w-md">
+        <h1 className="text-2xl font-bold text-center mb-6">Customer Login</h1>
+        <form onSubmit={handleLogin} className="space-y-4">
           <div>
-            <label
-              htmlFor="email"
-              className="block mb-2 font-medium text-gray-700"
-            >
+            <label htmlFor="email" className="block text-gray-700 font-medium mb-1">
               Email Address
             </label>
             <input
-              id="email"
               type="email"
-              placeholder="you@example.com"
+              id="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              placeholder="you@example.com"
+              className="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
               required
             />
           </div>
 
           <div>
-            <label
-              htmlFor="password"
-              className="block mb-2 font-medium text-gray-700"
-            >
+            <label htmlFor="password" className="block text-gray-700 font-medium mb-1">
               Password
             </label>
             <input
-              id="password"
               type="password"
-              placeholder="Enter your password"
+              id="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              placeholder="••••••••"
+              className="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
               required
             />
           </div>
 
-          {error && <p className="text-red-600 text-center text-sm">{error}</p>}
-
           <button
             type="submit"
-            disabled={loading}
-            className="w-full bg-indigo-600 text-white py-2 rounded-md hover:bg-indigo-700 transition"
+            className="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-500"
           >
-            {loading ? "Logging in..." : "Login"}
+            Login
           </button>
         </form>
+
+        <div className="mt-6 text-center text-sm">
+          <a href="/signup" className="text-blue-600 hover:underline">
+            Don’t have an account? Sign up
+          </a>
+        </div>
       </div>
-    </main>
+    </div>
   );
 }
