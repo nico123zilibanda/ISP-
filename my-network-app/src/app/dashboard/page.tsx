@@ -1,101 +1,67 @@
 "use client";
+
 import { useState } from "react";
 
-export default function Dashboard() {
-  // In a real app, you'd fetch user data or get it from auth context
-  const [userEmail] = useState("user@example.com");
-
-  const handleLogout = () => {
-    alert("Logging out...");
-    // Add logout logic here, e.g. clearing tokens and redirecting
-  };
+export default function DashboardPage() {
+  // Mock user data
+  const [user] = useState({
+    name: "Nicolaus Alex",
+    email: "nicolausa@gmail.com",
+    plan: "Unlimited Home Plan",
+    balance: 15000, // TZS
+    usage: "45GB / 100GB",
+    nextBillingDate: "2025-09-01",
+  });
 
   return (
-    <div className="min-h-screen flex bg-gray-100">
-      {/* Sidebar */}
-      <aside className="w-64 bg-indigo-700 text-white flex flex-col">
-        <div className="p-6 text-2xl font-bold border-b border-indigo-800">
-          IvodaNet
+    <div className="bg-gray-50 min-h-screen py-10 px-4">
+      <div className="max-w-6xl mx-auto">
+        {/* Greeting */}
+        <h1 className="text-3xl font-bold mb-6">
+          Welcome back, <span className="text-blue-600">{user.name}</span> 👋
+        </h1>
+
+        {/* Overview Cards */}
+        <div className="grid md:grid-cols-3 gap-6 mb-8">
+          <div className="bg-white p-6 rounded-lg shadow hover:shadow-lg transition">
+            <h2 className="text-gray-500 text-sm mb-2">Current Plan</h2>
+            <p className="text-lg font-semibold">{user.plan}</p>
+          </div>
+          <div className="bg-white p-6 rounded-lg shadow hover:shadow-lg transition">
+            <h2 className="text-gray-500 text-sm mb-2">Account Balance</h2>
+            <p className="text-lg font-semibold">{user.balance.toLocaleString()} TZS</p>
+          </div>
+          <div className="bg-white p-6 rounded-lg shadow hover:shadow-lg transition">
+            <h2 className="text-gray-500 text-sm mb-2">Next Billing Date</h2>
+            <p className="text-lg font-semibold">{user.nextBillingDate}</p>
+          </div>
         </div>
 
-        <nav className="flex-grow p-6 space-y-4">
-          <a
-            href="#"
-            className="block px-4 py-2 rounded hover:bg-indigo-600 transition"
-          >
-            Dashboard
-          </a>
-          <a
-            href="#"
-            className="block px-4 py-2 rounded hover:bg-indigo-600 transition"
-          >
-            Plans & Pricing
-          </a>
-          <a
-            href="#"
-            className="block px-4 py-2 rounded hover:bg-indigo-600 transition"
-          >
-            Coverage Checker
-          </a>
-          <a
-            href="#"
-            className="block px-4 py-2 rounded hover:bg-indigo-600 transition"
-          >
-            Support / How-To
-          </a>
-          <a
-            href="#"
-            className="block px-4 py-2 rounded hover:bg-indigo-600 transition"
-          >
-            Contact Us
-          </a>
-          <a
-            href="#"
-            className="block px-4 py-2 rounded hover:bg-indigo-600 transition"
-          >
-            About Us
-          </a>
-        </nav>
+        {/* Usage Section */}
+        <div className="bg-white rounded-lg shadow p-6 mb-8">
+          <h2 className="text-xl font-bold mb-4">Data Usage</h2>
+          <p className="text-gray-600 mb-2">Usage: {user.usage}</p>
+          <div className="w-full bg-gray-200 rounded-full h-4">
+            <div
+              className="bg-blue-600 h-4 rounded-full"
+              style={{ width: "45%" }}
+            ></div>
+          </div>
+        </div>
 
-        <button
-          onClick={handleLogout}
-          className="m-6 px-4 py-2 bg-red-600 rounded hover:bg-red-700 transition"
-        >
-          Logout
-        </button>
-      </aside>
-
-      {/* Main content */}
-      <main className="flex-grow p-10">
-        <h1 className="text-4xl font-bold mb-6">Welcome, {userEmail}!</h1>
-
-        <section className="bg-white p-6 rounded-lg shadow-md">
-          <h2 className="text-2xl font-semibold mb-4">Your Account Summary</h2>
-          <ul className="space-y-3 text-gray-700">
-            <li>
-              <strong>Plan:</strong> Premium Unlimited
-            </li>
-            <li>
-              <strong>Coverage Area:</strong> Citywide
-            </li>
-            <li>
-              <strong>Monthly Usage:</strong> 150 GB
-            </li>
-            <li>
-              <strong>Next Billing Date:</strong> 2025-09-01
-            </li>
-          </ul>
-        </section>
-
-        <section className="mt-8 bg-white p-6 rounded-lg shadow-md">
-          <h2 className="text-2xl font-semibold mb-4">Recent Activities</h2>
-          <ul className="list-disc list-inside text-gray-700 space-y-1">
-            <li>Checked coverage in New City - Sep 10, 2025</li>
-            <li>Upgraded plan from Basic to Premium - Aug 20, 2025</li>
-            <li>Contacted support about billing - Jul 15, 2025</li>
-          </ul>
-        </section>
-      </main>
+        {/* Actions */}
+        <div className="grid md:grid-cols-3 gap-6">
+          <button className="bg-blue-600 text-white p-4 rounded-lg font-semibold hover:bg-blue-500 transition">
+            Upgrade Plan
+          </button>
+          <button className="bg-green-600 text-white p-4 rounded-lg font-semibold hover:bg-green-500 transition">
+            Recharge Account
+          </button>
+          <button className="bg-red-600 text-white p-4 rounded-lg font-semibold hover:bg-red-500 transition">
+            Contact Support
+          </button>
+        </div>
+      </div>
     </div>
   );
 }

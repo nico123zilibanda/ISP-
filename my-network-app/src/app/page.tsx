@@ -1,67 +1,102 @@
+"use client";
+
+import { useState, useEffect } from "react";
 import Image from "next/image";
-import NavBar from "./ui/navbar";
 import About from "./about/page";
+import PlansPage from "./plans/page";
+
+const slides = [
+  {
+    title: "Fast & Reliable Internet",
+    subtitle: "Stay connected wherever you are with iVodaNet's blazing fast Wi-Fi.",
+    img: "/hero1.jpg",
+  },
+  {
+    title: "Unlimited Coverage",
+    subtitle: "Experience seamless internet in your city or town.",
+    img: "/hero2.jpg",
+  },
+  {
+    title: "Affordable Packages",
+    subtitle: "Pick a package that suits your lifestyle and budget.",
+    img: "/hero3.jpg",
+  },
+];
+
 export default function Home() {
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  // Auto-slide every 5 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % slides.length);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <div className="bg-gray-50">
-      {/* Hero Section */}
-      <section className="bg-blue-600 text-white py-20">
-        <div className="max-w-7xl mx-auto text-center px-4">
-          <h1 className="text-4xl font-bold mb-4">Fast & Reliable Internet</h1>
-          <p className="text-lg mb-6">
-            Stay connected wherever you are with IvodaNet's blazing fast Wi-Fi.
-          </p>
-          <div className="space-x-4">
-            <a
-              href="/plans"
-              className="bg-white text-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100"
-            >
-              View Plans
-            </a>
-            <a
-              href="/login"
-              className="bg-blue-500 px-6 py-3 rounded-lg font-semibold hover:bg-blue-400"
-            >
-              Login
-            </a>
+
+      {/* Hero Section with Image Slider */}
+      <section className="relative h-[500px] w-full">
+        {slides.map((slide, index) => (
+          <div
+            key={index}
+            className={`absolute top-0 left-0 w-full h-full transition-opacity duration-1000 ${
+              index === currentSlide ? "opacity-100 z-10" : "opacity-0 z-0"
+            }`}
+          >
+            <Image
+              src={slide.img}
+              alt={slide.title}
+              fill
+              className="object-cover"
+            />
+            <div className="absolute inset-0 bg-black/40 flex flex-col justify-center items-center text-center px-4">
+              <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
+                {slide.title}
+              </h1>
+              <p className="text-lg md:text-xl text-white mb-6">{slide.subtitle}</p>
+              <div className="space-x-4">
+                <a
+                  href="/plans"
+                  className="bg-white text-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100"
+                >
+                  View Plans
+                </a>
+                <a
+                  href="/login"
+                  className="bg-blue-500 px-6 py-3 rounded-lg font-semibold hover:bg-blue-400"
+                >
+                  Login
+                </a>
+              </div>
+            </div>
           </div>
+        ))}
+
+        {/* Slider Dots */}
+        <div className="absolute bottom-6 w-full flex justify-center space-x-3">
+          {slides.map((_, idx) => (
+            <button
+              key={idx}
+              onClick={() => setCurrentSlide(idx)}
+              className={`w-3 h-3 rounded-full transition-colors ${
+                idx === currentSlide ? "bg-white" : "bg-gray-400"
+              }`}
+            />
+          ))}
         </div>
       </section>
 
       {/* Plans Preview */}
-      <section className="py-16">
-        <div className="max-w-7xl mx-auto px-4">
-          <h2 className="text-4xl font-bold mb-8 text-center text-indigo-700">Internet Packages Plans</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-blue-400">
-            {[
-              {id: 1, name: "Unlimited", speed: "100 Mbps", price: "TZS 1000 / SIKU" },
-              {id: 2, name: "Unlimited", speed: "100 Mbps", price: "TZS 5000 / WIKI" },
-              {id: 3, name: "Unlimited", speed: "100 Mbps", price: "TZS 15000/ MWEZI" },
-            ].map((plan) => (
-              <div
-                key={plan.id}
-                className="bg-white p-6 rounded-lg shadow hover:shadow-lg transition"
-              >
-                <h3 className="text-xl font-semibold mb-2">{plan.name}</h3>
-                <p className="text-gray-600 mb-2">{plan.speed}</p>
-                <p className="text-blue-600 font-bold mb-4">{plan.price}</p>
-                <a
-                  href="/plans"
-                  className="block text-center bg-blue-600 text-white py-2 rounded hover:bg-blue-500"
-                >
-                  Choose Plan
-                </a>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <PlansPage />
 
       {/* How It Works */}
       <section className="bg-white py-16">
         <div className="max-w-7xl mx-auto px-4 text-center">
-          <h2 className="text-4xl font-bold mb-8 text-indigo-700">How It Works</h2>
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+          <h2 className="text-4xl font-bold mb-8 text-gray-950">How It Works</h2>
+          <div className="grid grid-cols-1 text-gray-950 md:grid-cols-4 gap-8">
             {[
               { step: "Choose a Plan", icon: "📦" },
               { step: "Sign Up", icon: "📝" },
@@ -76,8 +111,8 @@ export default function Home() {
           </div>
         </div>
       </section>
+
       <About />
     </div>
   );
 }
-

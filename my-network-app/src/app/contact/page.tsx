@@ -1,146 +1,92 @@
 "use client";
 
-import { useState, ChangeEvent, FormEvent } from "react";
+import { useState } from "react";
 
-type FormData = {
-  name: string;
-  email: string;
-  subject: string;
-  message: string;
-};
-
-export default function Contact() {
-  const [formData, setFormData] = useState<FormData>({
+export default function ContactPage() {
+  const [formData, setFormData] = useState({
     name: "",
     email: "",
-    subject: "",
     message: "",
   });
 
-  const [error, setError] = useState<string>("");
-  const [success, setSuccess] = useState<string>("");
-  const [loading, setLoading] = useState<boolean>(false);
-
-  const validateEmail = (email: string): boolean => /\S+@\S+\.\S+/.test(email);
-
-  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-    setError("");
-    setSuccess("");
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-
-    const { name, email, subject, message } = formData;
-
-    if (!name.trim() || !email.trim() || !subject.trim() || !message.trim()) {
-      setError("Please fill in all fields.");
-      return;
-    }
-
-    if (!validateEmail(email)) {
-      setError("Please enter a valid email address.");
-      return;
-    }
-
-    setLoading(true);
-    setError("");
-    setSuccess("");
-
-    // Simulate sending form (replace with real API call)
-    setTimeout(() => {
-      setLoading(false);
-      setSuccess("Thank you for contacting us! We will get back to you soon.");
-      setFormData({ name: "", email: "", subject: "", message: "" });
-    }, 2000);
+    console.log("Contact Form Submitted:", formData);
+    // TODO: send data to backend or email service
+    alert("Your message has been sent! We will respond shortly.");
+    setFormData({ name: "", email: "", message: "" });
   };
 
   return (
-    <main className="min-h-screen bg-gray-50 flex items-center justify-center p-6">
-      <div className="max-w-lg w-full bg-white rounded-lg shadow-md p-8">
-        <h1 className="text-3xl font-bold mb-6 text-indigo-700 text-center">
-          Contact Us
-        </h1>
+    <div className="bg-gray-50 min-h-screen py-12 px-4">
+      <div className="max-w-3xl mx-auto bg-white shadow-md rounded-lg p-8">
+        <h1 className="text-3xl font-bold text-center mb-6">Contact Support</h1>
+        <p className="text-gray-600 text-center mb-8">
+          We’re here to help. Fill out the form below, and our team will get back to you.
+        </p>
 
-        <form onSubmit={handleSubmit} className="space-y-5" noValidate>
+        <form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            <label htmlFor="name" className="block mb-2 font-medium text-gray-700">
-              Name
-            </label>
+            <label className="block text-gray-700 font-medium mb-1">Your Name</label>
             <input
-              id="name"
-              name="name"
               type="text"
-              placeholder="Your full name"
+              name="name"
               value={formData.name}
               onChange={handleChange}
-              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              placeholder="John Doe"
+              className="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
               required
             />
           </div>
 
           <div>
-            <label htmlFor="email" className="block mb-2 font-medium text-gray-700">
-              Email Address
-            </label>
+            <label className="block text-gray-700 font-medium mb-1">Email Address</label>
             <input
-              id="email"
-              name="email"
               type="email"
-              placeholder="you@example.com"
+              name="email"
               value={formData.email}
               onChange={handleChange}
-              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              placeholder="you@example.com"
+              className="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
               required
             />
           </div>
 
           <div>
-            <label htmlFor="subject" className="block mb-2 font-medium text-gray-700">
-              Subject
-            </label>
-            <input
-              id="subject"
-              name="subject"
-              type="text"
-              placeholder="Subject of your message"
-              value={formData.subject}
-              onChange={handleChange}
-              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
-              required
-            />
-          </div>
-
-          <div>
-            <label htmlFor="message" className="block mb-2 font-medium text-gray-700">
-              Message
-            </label>
+            <label className="block text-gray-700 font-medium mb-1">Message</label>
             <textarea
-              id="message"
               name="message"
-              rows={4}
-              placeholder="Write your message here"
               value={formData.message}
               onChange={handleChange}
-              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none"
+              rows={5}
+              placeholder="Type your message here..."
+              className="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
               required
-            />
+            ></textarea>
           </div>
-
-          {error && <p className="text-red-600 text-center">{error}</p>}
-          {success && <p className="text-green-600 text-center">{success}</p>}
 
           <button
             type="submit"
-            disabled={loading}
-            className="w-full bg-indigo-600 text-white py-2 rounded-md hover:bg-indigo-700 transition"
+            className="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-500"
           >
-            {loading ? "Sending..." : "Send Message"}
+            Send Message
           </button>
         </form>
+
+        <div className="mt-8 text-center text-sm text-gray-500">
+          Or email us directly at{" "}
+          <a
+            href="mailto:support@pasuanet.com"
+            className="text-blue-600 hover:underline"
+          >
+            support@pasuanet.com
+          </a>
+        </div>
       </div>
-    </main>
+    </div>
   );
 }
