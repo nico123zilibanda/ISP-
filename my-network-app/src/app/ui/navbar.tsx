@@ -49,6 +49,8 @@ export default function NavBar() {
           <Link href="/plans" className="block px-4 py-2 hover:bg-blue-400">Plans</Link>
           <Link href="/coverage" className="block px-4 py-2 hover:bg-blue-400">Coverage</Link>
           <Link href="/support" className="block px-4 py-2 hover:bg-blue-400">Support</Link>
+          <Link href="/support" className="block px-4 py-2 hover:bg-blue-400">Sign Up</Link>
+
           <Link href="/login" className="block px-4 py-2 bg-white text-blue-600 hover:bg-gray-100">
             Login
           </Link>
