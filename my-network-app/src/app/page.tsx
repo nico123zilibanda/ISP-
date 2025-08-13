@@ -12,7 +12,7 @@ const slides = [
     img: "/hero1.jpg",
   },
   {
-    title: "Unlimited Coverage",
+    title: "Unlimited Coverage Areas",
     subtitle: "Experience seamless internet in your city or town.",
     img: "/hero2.jpg",
   },
